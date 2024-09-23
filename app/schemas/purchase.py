@@ -1,7 +1,8 @@
+# schemas/purchase.py
 from pydantic import BaseModel
+from datetime import datetime
 
 class PurchaseBase(BaseModel):
-    user_id: int
     ticket_id: int
     quantity: int
 
@@ -10,6 +11,8 @@ class PurchaseCreate(PurchaseBase):
 
 class Purchase(PurchaseBase):
     id: int
+    user_id: int
+    purchase_date: datetime
 
     class Config:
         orm_mode = True

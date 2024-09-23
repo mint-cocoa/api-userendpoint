@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
-from ..models import Facility
-from ..schemas import FacilityCreate
+from app.models import Facility
+from app.schemas import FacilityCreate
+
 
 def get_facilities(db: Session, skip: int = 0, limit: int = 100):
     return db.query(Facility).offset(skip).limit(limit).all()

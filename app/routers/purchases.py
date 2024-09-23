@@ -1,19 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
+# routers/purchases.py
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from .. import crud, schemas, dependencies
-
-router = APIRouter(
-    prefix="/purchases",
-    tags=["purchases"],
-)
+from app import schemas, crud, models, dependencies
+router = APIRouter()
 
 @router.post("/", response_model=schemas.Purchase)
-def create_purchase(purchase: schemas.PurchaseCreate, db: Session = Depends(dependencies.get_db)):
-    return crud.purchase.create_purchase(db=db, purchase=purchase)
-
-@router.get("/{purchase_id}", response_model=schemas.Purchase)
-def read_purchase(purchase_id: int, db: Session = Depends(dependencies.get_db)):
-    db_purchase = crud.purchase.get_purchase(db, purchase_id=purchase_id)
-    if db_purchase is None:
-        raise HTTPException(status_code=404, detail="Purchase not found")
-    return db_purchase
+def create_purchase(purchase: schemas.PurchaseCreate, db: Session = Depends(dependencies.get_db), current_user: models.User = Depends(dependencies.get_current_active_user)):
+    # 실제 결제 처리 로직 추가 필요
+    return crud.purchase.create_purchase(db=db, purchase=purchase, user_id=current_user.id)

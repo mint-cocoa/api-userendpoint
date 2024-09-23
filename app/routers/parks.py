@@ -1,6 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException
+# routers/parks.py
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from .. import crud, schemas, dependencies
+from typing import List
+from app import schemas, crud, models, dependencies
 
 router = APIRouter(
     prefix="/parks",
@@ -8,12 +10,10 @@ router = APIRouter(
 )
 
 @router.post("/", response_model=schemas.Park)
-def create_park(park: schemas.ParkCreate, db: Session = Depends(dependencies.get_db)):
-    return crud.park.create_park(db=db, park=park)
+def create_park(park: schemas.ParkCreate, db: Session = Depends(dependencies.get_db), current_manager: models.User = Depends(dependencies.get_current_manager)):
+    return crud.park.create_park(db=db, park=park, manager_id=current_manager.id)
 
-@router.get("/{park_id}", response_model=schemas.Park)
-def read_park(park_id: int, db: Session = Depends(dependencies.get_db)):
-    db_park = crud.park.get_park(db, park_id=park_id)
-    if db_park is None:
-        raise HTTPException(status_code=404, detail="Park not found")
-    return db_park
+@router.get("/", response_model=List[schemas.Park])
+def read_parks(skip: int = 0, limit: int = 100, db: Session = Depends(dependencies.get_db)):
+    parks = crud.park.get_parks(db, skip=skip, limit=limit)
+    return parks
