@@ -10,4 +10,4 @@ def create_park(db: Session, park: ParkCreate, manager_id: int):
     return db_park
 
 def get_parks(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Park).offset(skip).limit(limit).all()
+    return db.query(Park).offset(skip).limit(limit).all()

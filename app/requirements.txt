@@ -8,3 +8,6 @@ python-multipart
 psycopg2-binary
 python-jose
 passlib
+qrcode[pil]
+pytest
+httpx

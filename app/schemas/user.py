@@ -6,11 +6,11 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
-
+    is_manager: bool
 class User(UserBase):
     id: int
     is_active: bool
-    is_manager: bool
+    
 
     class Config:
         orm_mode = True

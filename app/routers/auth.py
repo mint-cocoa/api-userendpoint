@@ -6,13 +6,16 @@ from jose import jwt
 from datetime import timedelta, datetime
 from app import schemas, crud, dependencies
 import os
-router = APIRouter()
+router = APIRouter(
+    prefix="/auth",
+    tags=["auth"],
+)   
 
 SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-@router.post("/token", response_model=schemas.Token)
+@router.post("/", response_model=schemas.Token)
 def login_for_access_token(db: Session = Depends(dependencies.get_db), form_data: OAuth2PasswordRequestForm = Depends()):
     user = crud.user.get_user_by_email(db, email=form_data.username)
     if not user:
@@ -26,7 +29,7 @@ def login_for_access_token(db: Session = Depends(dependencies.get_db), form_data
             detail="사용자 이름이나 비밀번호가 올바르지 않습니다.",
         )
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = dependencies.create_access_token(
+    access_token = create_access_token(
         data={"sub": str(user.id)}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
