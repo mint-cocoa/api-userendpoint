@@ -10,8 +10,8 @@ router = APIRouter(
 )
 
 @router.post("/", response_model=schemas.Park)
-def create_park(park: schemas.ParkCreate, db: Session = Depends(dependencies.get_db), current_manager: models.User = Depends(dependencies.get_current_manager)):
-    return crud.park.create_park(db=db, park=park, manager_id=current_manager.id)
+def create_park(park: schemas.ParkCreate, db: Session = Depends(dependencies.get_db)):
+    return crud.park.create_park(db=db, park=park)
 
 @router.get("/", response_model=List[schemas.Park])
 def read_parks(skip: int = 0, limit: int = 100, db: Session = Depends(dependencies.get_db)):

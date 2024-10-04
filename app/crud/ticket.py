@@ -10,7 +10,7 @@ router = APIRouter(
 def create_ticket(db: Session, ticket: TicketCreate, park_id: int):
     db_ticket = Ticket(**ticket.dict(), park_id=park_id)
     db.add(db_ticket)
-    db.commit()
+    db.commit(  )
     db.refresh(db_ticket)
     return db_ticket
 

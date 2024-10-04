@@ -1,5 +1,5 @@
 # models/facility.py
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from app.database import Base
 
@@ -11,5 +11,5 @@ class Facility(Base):
     description = Column(String)
     capacity = Column(Integer)  # 최대 수용 인원 추가
     park_id = Column(Integer, ForeignKey('parks.id'))
-
+    is_open = Column(Boolean, default=False)
     park = relationship('Park', back_populates='facilities')

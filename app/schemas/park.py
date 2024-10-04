@@ -12,7 +12,6 @@ class ParkCreate(ParkBase):
 
 class Park(ParkBase):
     id: int
-    manager_id: int
 
     class Config:
         orm_mode = True

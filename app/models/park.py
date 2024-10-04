@@ -10,8 +10,8 @@ class Park(Base):
     name = Column(String, index=True)
     description = Column(String)
     location = Column(String)
-    manager_id = Column(Integer, ForeignKey('users.id'))
 
-    manager = relationship('User')
+
     facilities = relationship('Facility', back_populates='park')
     tickets = relationship('Ticket', back_populates='park')
+    

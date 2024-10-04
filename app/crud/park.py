@@ -2,8 +2,8 @@ from sqlalchemy.orm import Session
 from app.models import Park
 from app.schemas import ParkCreate
 
-def create_park(db: Session, park: ParkCreate, manager_id: int):
-    db_park = Park(**park.dict(), manager_id=manager_id)
+def create_park(db: Session, park: ParkCreate):
+    db_park = Park(name=park.name, description=park.description, location=park.location)
     db.add(db_park)
     db.commit()
     db.refresh(db_park)
