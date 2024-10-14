@@ -5,6 +5,7 @@ from datetime import datetime
 class PurchaseBase(BaseModel):
     ticket_id: int
     quantity: int
+    
 
 class PurchaseCreate(PurchaseBase):
     pass

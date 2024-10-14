@@ -10,7 +10,7 @@ class Park(Base):
     name = Column(String, index=True)
     description = Column(String)
     location = Column(String)
-
+    managers = relationship('User', back_populates='park')
 
     facilities = relationship('Facility', back_populates='park')
     tickets = relationship('Ticket', back_populates='park')

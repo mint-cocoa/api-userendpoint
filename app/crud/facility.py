@@ -15,8 +15,17 @@ def create_facility(db: Session, facility: FacilityCreate, current_user):
         raise HTTPException(status_code=403, detail="Only managers can create facilities")
     
     # 현재 사용자의 소속 공원 ID를 사용
-    db_facility = Facility(name=facility.name, park_id=current_user.park_id)
+    db_facility = Facility(name=facility.name, park_id=current_user.park_id, description=facility.description, capacity=facility.capacity)
     db.add(db_facility)
     db.commit()
     db.refresh(db_facility)
     return db_facility
+
+def update_facility_status(db: Session, facility_id: int, is_open: bool):
+    facility = db.query(Facility).filter(Facility.id == facility_id).first()
+    if facility:
+        facility.is_open = is_open
+        db.commit()
+        db.refresh(facility)
+    return facility
+

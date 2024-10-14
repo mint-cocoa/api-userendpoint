@@ -1,13 +1,12 @@
-# schemas/facility.py
 from pydantic import BaseModel
 
 class FacilityBase(BaseModel):
     name: str
     description: str
-    capacity: int  # 최대 수용 인원 추가
+    capacity: int
+    is_open: bool
 
 class FacilityCreate(FacilityBase):
-    # park_id 필드를 제거하여 수동 입력을 방지
     pass
 
 class Facility(FacilityBase):
@@ -16,3 +15,6 @@ class Facility(FacilityBase):
 
     class Config:
         orm_mode = True
+
+class FacilityStatusUpdate(FacilityBase):
+    is_open: bool

@@ -11,5 +11,5 @@ class Facility(Base):
     description = Column(String)
     capacity = Column(Integer)  # 최대 수용 인원 추가
     park_id = Column(Integer, ForeignKey('parks.id'))
-    is_open = Column(Boolean, default=False)
+    is_open = Column(Boolean, default=True)
     park = relationship('Park', back_populates='facilities')
